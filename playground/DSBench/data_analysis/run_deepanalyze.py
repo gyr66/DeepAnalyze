@@ -28,6 +28,8 @@ MODEL_LIMITS = {
     "deepseek-v3-250324": 128_000,
     "deepseek-r1-250528": 128_000,
     "DeepAnalyz-8B": 128_000,
+    "DeepAnalyze-8B": 128_000,
+    "DeepAnalyze-CRPO-S120": 128_000, # TODO: add new model
 }
 
 MODEL_COST_PER_INPUT = {
@@ -55,16 +57,16 @@ def get_gpt_res(text, image, model, client):
     ]
 
     payload = {
-        "model": "/fs/fast/u2023000922/zhangshaolei/checkpoints/rl0906.step28.0929/export/global_step_33/policy/",
+        "model": "/home/guoyiran/data/hf-models/DeepAnalyze-CRPO-S120", # TODO: change this
         "messages": messages,
         "temperature": 0.0,
-        "max_tokens": 4000,
+        "max_tokens": 49152,
         "add_generation_prompt": False,
     }
 
     # Send request to vLLM API
     response = requests.post(
-        "http://localhost:8000/v1/chat/completions",
+        "http://localhost:8000/v1/chat/completions", # TODO: change this
         headers={"Content-Type": "application/json"},
         json=payload,
     )
@@ -190,13 +192,13 @@ def process_question(question, text, image, model, client, sample_id, index):
 def main():
     client = OpenAI(
         api_key="",
-        base_url="http://localhost:8000/v1",
+        base_url="http://localhost:8000/v1", # TODO: change this
     )
 
-    tokens4generation = 4000
-    model = "DeepAnalyz-8B"
-    model_name = "DeepAnalyz-8B"
-    data_path = "./data/"
+    tokens4generation = 49152
+    model = "DeepAnalyze-CRPO-S120" # TODO: change this
+    model_name = "DeepAnalyze-CRPO-S120" # TODO: change this
+    data_path = "/home/guoyiran/data/download/dsbench/data_analysis/data/"
     total_cost = 0
     encoding = tiktoken.encoding_for_model("gpt-4-turbo-2024-04-09")
 
@@ -208,7 +210,7 @@ def main():
 
     for id in tqdm(range(len(samples))):
         sample = samples[id]
-        save_path = os.path.join("./save_process", f"{model_name}")
+        save_path = os.path.join("/home/guoyiran/data/download/dsbench/data_analysis/save_process", f"{model_name}")
         output_file = os.path.join(save_path, sample["id"] + ".json")
 
         # Skip if output file already exists

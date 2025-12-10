@@ -8,13 +8,17 @@ from multiprocessing import Pool
 from deepanalyze import DeepAnalyzeVLLM
 
 # Global configuration
-WORKING_DIR = "Absolute path_to_DSBench/data_modeling/"
-SAVE_PATH = "./output_model/"
-MODEL = "DeepAnalyze-8B"
+WORKING_DIR = "/home/mnt/guoyiran/download/dsbench/data_modeling/"
+SAVE_PATH = "/home/mnt/guoyiran/download/dsbench/data_modeling/output_model/"
+MODEL = "DeepAnalyze-CRPO-S220" # TODO: Change this
 TASK_PROMPT = "Save the final results as 'submission.csv'."
 
 # Initialize the agent
-agent = DeepAnalyzeVLLM("path_to_DeepAnalyze-8B")
+# export CUDA_VISIBLE_DEVICES=3
+# export NCCL_SOCKET_IFNAME=eno1
+# export GLOO_SOCKET_IFNAME=eno1
+# vllm serve /home/guoyiran/data/hf-models//home/guoyiran/data/hf-models/DeepAnalyze-step-40 --port 8001
+agent = DeepAnalyzeVLLM("/home/guoyiran/data/hf-models/DeepAnalyze-CRPO-S220") # TODO: Change this
 
 
 # Timeout context manager
@@ -48,7 +52,7 @@ def process_task(task: dict):
         return
 
     # Read task description
-    description_file = os.path.join("./data/task/", f"{name}.txt")
+    description_file = os.path.join("/home/guoyiran/data/download/dsbench/data_modeling/data/task/", f"{name}.txt")
     with open(description_file, "r", encoding="utf-8") as f:
         description = f.read()
 
@@ -98,7 +102,7 @@ def main():
     os.makedirs(os.path.join(SAVE_PATH, MODEL), exist_ok=True)
 
     # Load tasks
-    data_file = "./data.json"
+    data_file = "/home/guoyiran/projects/DeepAnalyze/playground/DSBench/data_modeling/data.json"
     tasks = []
     with open(data_file, "r", encoding="utf-8") as f:
         for line in f:

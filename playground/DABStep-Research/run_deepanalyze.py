@@ -142,9 +142,9 @@ if __name__ == "__main__":
     # ===============================
     # Configuration
     # ===============================
-    CONTEXT_DIR = "./context"
+    CONTEXT_DIR = "/tmp/DABstep-data"
     JSONL_PATH = "dabstep_research.jsonl"
-    OUTPUT_DIR = Path("./runs/deepanalyze")  # Generalized experiment folder
+    OUTPUT_DIR = Path("./runs/deepanalyze-crpo-s220")  # TODO change this
     NUM_PROCESSES = 4
 
     # ===============================
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     # ===============================
     # Initialize agent
     # ===============================
-    AGENT_MODEL_PATH = "/path/to/deepanalyze_model"
+    AGENT_MODEL_PATH = "/home/guoyiran/data/hf-models/DeepAnalyze-CRPO-S220" # TODO change this
     agent = DeepAnalyzeVLLM(AGENT_MODEL_PATH)
 
     # ===============================

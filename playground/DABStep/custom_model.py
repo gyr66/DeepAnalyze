@@ -4,7 +4,13 @@ import traceback
 import contextlib
 import os
 import requests
-from pathlib import Path
+
+def _extract_answer(text):
+    matches = re.findall(r"<Answer>(.*?)</Answer>", text, re.DOTALL)
+    if matches:
+        return matches[-1].strip()
+    else:
+        return None
 
 
 class DeepAnalyzeVLLM:
@@ -69,8 +75,8 @@ class DeepAnalyzeVLLM:
         self,
         prompt: str,
         workspace: str,
-        temperature: float = 0.5,
-        max_tokens: int = 32768,
+        temperature: float = 0,
+        max_tokens: int = 49152,
         top_p: float = None,
         top_k: int = None,
     ) -> dict:
@@ -137,4 +143,4 @@ class DeepAnalyzeVLLM:
             reasoning = "\n".join(response_message)
 
         os.chdir(original_cwd)
-        return {"reasoning": reasoning}
+        return {"reasoning": reasoning, "answer": _extract_answer(reasoning)}

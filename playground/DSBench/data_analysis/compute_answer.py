@@ -4,7 +4,7 @@ from tqdm import tqdm
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key="")
+client = OpenAI(api_key="sk-2RBnOmg9yga6CSz2GuCmqZxSz259JoSoos4BZprWWPOCJCda", base_url="https://api.ai.cs.ac.cn/v1")
 
 samples = []
 with open("./data.json", "r") as f:
@@ -40,9 +40,11 @@ def read_txt(path):
         return f.read()
 
 
-save_path = "./save_process"
-model = "gpt-3.5-turbo-0125"
-# model = 'gpt-4o-2024-05-13'
+save_path = "/home/guoyiran/data/download/dsbench/data_analysis/save_process"
+model = "DeepAnalyze-CRPO-S120" # TODO: change this
+# model = "DeepAnalyze-8B" # TODO: change this
+# model = "gpt-3.5-turbo-0125"
+# model = 'gpt-4o-2024-05-13'   
 # model = 'llama-3-8b-instruct'
 # model = 'gpt-3.5-turbo-0125-autoagent'
 # model = 'gpt-4o-2024-05-13-autoagent'
@@ -65,7 +67,7 @@ for sample in tqdm(samples):
         questions = []
         for id, question_name in enumerate(tqdm(sample["questions"])):
             question = read_txt(
-                os.path.join("./data", sample["id"], question_name + ".txt")
+                os.path.join("/home/guoyiran/data/download/dsbench/data_analysis/data", sample["id"], question_name + ".txt")
             )
             pre = predicts[id]
             try:

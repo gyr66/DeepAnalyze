@@ -12,17 +12,18 @@ print(data)
 
 # model = 'gpt-4-turbo'
 # model = 'gpt-4o-2024-05-13'
-model = "gpt-3.5-turbo-0125"
+# model = "gpt-3.5-turbo-0125"
 # model = 'baseline'
 # model = 'gpt-3.5-turbo-0125-autoagent'
 # model = 'gpt-4o-2024-05-13-autoagent'
 # model = 'llama3-autoagent'
+model = 'DeepAnalyze-CRPO-S220' # TODO: change this
 
-gt_path = "./data/answers/"
+gt_path = "/home/mnt/guoyiran/download/dsbench/data_modeling/data/answers/"
 # pred_path = gt_path
 python_path = "./evaluation/"
-pred_path = f"./output_model/{model}/"
-save_path = f"./save_performance/{model}"
+pred_path = f"/home/mnt/guoyiran/download/dsbench/data_modeling/output_model/{model}/"
+save_path = f"/home/mnt/guoyiran/download/dsbench/data_modeling/save_performance/{model}"
 
 for line in data:
     # print(line['name'])

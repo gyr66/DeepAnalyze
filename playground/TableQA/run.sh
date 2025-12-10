@@ -1,11 +1,13 @@
 export CUDA_VISIBLE_DEVICES=0
+export NCCL_SOCKET_IFNAME=eno1
+export GLOO_SOCKET_IFNAME=eno1
 
-MODEL_PATH="path_to_DeepAnalyze-8B"
-MODEL_NAME="DeepAnalyze-8B"
+MODEL_PATH="/home/guoyiran/data/hf-models/DeepAnalyze-CRPO-S220" # TODO: change this
+MODEL_NAME="DeepAnalyze-CRPO-S220" # TODO: change this
 
 EVAL_MODEL_PATH="model path or name"  # Evaluation model path (for LLM evaluation)
 # TASK_NAME="tablebench"  # Task name, e.g., tatqa, wikitq
-TRAIN_TYPE="sft"  # Training type, e.g., grpo, ppo, sft
+TRAIN_TYPE="crpo"  # Training type, e.g., grpo, ppo, sft
 MODEL_SIZE="8b"    # Model size, e.g., 3b, 7b
 TENSOR_PARALLEL_SIZE=1 # Tensor parallel size, to match attention head count
 BATCH_SIZE=256  # Batch size
@@ -13,19 +15,19 @@ MAX_TOKENS=32000     # Maximum tokens for model generation
 EVAL_MODE="standard"   # Evaluation mode: standard(exact match), llm(LLM only), combined(exact match + LLM)
 LLM_EVAL_BATCH_SIZE=32  # LLM evaluation batch size
 
-for TASK_NAME in ottqa tatqa finqa  hybridqa  multihiertt   tablebench hitab wikitq fetaqa aitqa feverous totto wikisql tabfact
+for TASK_NAME in ottqa tatqa finqa  hybridqa  multihiertt  hitab wikitq
 do
   # ===================== Path Configuration ============================
   BASE_PATH="$(pwd)"  # Use current directory as base path
-  INFER_SCRIPT="${BASE_PATH}/tests_our/${TASK_NAME}.py"
+  INFER_SCRIPT="${BASE_PATH}/tests/${TASK_NAME}.py"
 
   # Select different evaluation script paths based on evaluation mode
   if [ "$EVAL_MODE" = "standard" ]; then
-    EVAL_SCRIPT="${BASE_PATH}/tests_our/eval/${TASK_NAME}_eval.py"
+    EVAL_SCRIPT="${BASE_PATH}/tests/eval/${TASK_NAME}_eval.py"
   elif [ "$EVAL_MODE" = "llm" ]; then
-    EVAL_SCRIPT="${BASE_PATH}/tests_our/llm_eval/${TASK_NAME}_eval.py"
+    EVAL_SCRIPT="${BASE_PATH}/tests/llm_eval/${TASK_NAME}_eval.py"
   else  # combined
-    EVAL_SCRIPT="${BASE_PATH}/tests_our/llm_eval/${TASK_NAME}_combined_eval.py"
+    EVAL_SCRIPT="${BASE_PATH}/tests/llm_eval/${TASK_NAME}_combined_eval.py"
   fi
 
   # Auto-generate output file paths

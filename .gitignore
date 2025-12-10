@@ -26,3 +26,7 @@ wheels/
 **/CLAUDE.md
 
 demo
+playground/TableQA/data
+playground/TableQA/results
+playground/DABStep/runs
+playground/DABStep-Research/runs
